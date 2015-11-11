@@ -94,7 +94,7 @@ describe Blackjack do
     it "should return the winning hand" do
       hand_1.cards_in_hand = [card_1, card_2, card_3]
       blackjack.player.cards_in_hand = hand_1.cards_in_hand
-      
+
       hand_2.cards_in_hand = [card_4, card_5, card_6]
       blackjack.dealer.cards_in_hand = hand_2.cards_in_hand
 
@@ -102,24 +102,26 @@ describe Blackjack do
       expect{blackjack.winning_hand}.to output(/tie/).to_stdout
     end
   end
-end
 
-# describe "Blackjack" do
-#   blackjack_2 = Blackjack.new
-#   context "#winning_hand" do
-#     it "should return a tie" do
-#       @player = Hand.new
-#       @player.cards_in_hand << Card.new(8,"♠")
-#       @player.cards_in_hand << Card.new(8,"♠")
-#       @player.cards_in_hand << Card.new("A","♥")
-#       expect(@player.calculate_score).to eq(17)
-#
-#       @dealer = Hand.new
-#       @dealer.cards_in_hand << Card.new(8,"♠")
-#       @dealer.cards_in_hand << Card.new(8,"♠")
-#       @dealer.cards_in_hand << Card.new("A","♥")
-#       expect(@dealer.calculate_score).to eq(17)
-#       expect{blackjack_2.winning_hand}.to output(/tie/).to_stdout
-#     end
-#   end
-# end
+  describe "#winning_hand" do
+    let(:card_7) {Card.new(3,"♠")}
+    let(:card_8) {Card.new(5,"♠")}
+    let(:card_9) {Card.new("A","♥")}
+    let(:hand_3) { Hand.new }
+
+    let(:card_10) {Card.new(2,"♠")}
+    let(:card_11) {Card.new(5,"♠")}
+    let(:card_12) {Card.new("A","♥")}
+    let(:hand_4) { Hand.new }
+    it "should return the winning hand" do
+      hand_3.cards_in_hand = [card_7, card_8, card_9]
+      blackjack.player.cards_in_hand = hand_3.cards_in_hand
+
+      hand_4.cards_in_hand = [card_10, card_11, card_12]
+      blackjack.dealer.cards_in_hand = hand_4.cards_in_hand
+
+
+      expect{blackjack.winning_hand}.to output(/Player wins/).to_stdout
+    end
+  end
+end

@@ -9,4 +9,8 @@ class Card
     @rank = rank
     @suit = suit
   end
+
+  def display
+    print "#{@rank}#{@suit}"
+  end
 end

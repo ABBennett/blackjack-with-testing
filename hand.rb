@@ -2,10 +2,11 @@ require_relative 'card'
 require_relative 'deck'
 
 class Hand
-  attr_accessor :cards_in_hand
+  attr_accessor :cards_in_hand, :name
 
-  def initialize
+  def initialize(name)
     @cards_in_hand = []
+    @name = name
   end
 
   def calculate_score
