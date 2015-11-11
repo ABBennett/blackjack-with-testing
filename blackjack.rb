@@ -21,46 +21,40 @@ class Blackjack
     display_card(@player,1)
 
     choice = "h"
-    while choice == "h"
-      puts "\nPLAYER SCORE: #{@player.calculate_score}"
+    continue = true
+    while choice == "h" && continue == true
+      display_score(@player)
       puts
       puts "Would you like to hit or stand?(h/s)"
       choice = gets.chomp.downcase
       if choice == "h"
-        puts
         hit(@player)
-        display_card(@player, -1)
-
       end
-
       if bust?(@player)
-        puts "\nPLAYER SCORE: #{@player.calculate_score}"
-        puts
-        puts "Bust! You lose."
-        choice = "b"
+        continue = false
       end
     end
-    puts
 
     if choice == "s"
       display_card(@dealer,0)
       display_card(@dealer,1)
-      puts "\nDEALER SCORE: #{@dealer.calculate_score}"
+      display_score(@dealer)
       while @dealer.calculate_score < 17
         hit(@dealer)
-        display_card(@dealer,-1)
-        puts "\nDEALER SCORE: #{@dealer.calculate_score}"
+        display_score(@dealer)
       end
     end
 
     if bust?(@dealer)
       puts "Dealer bust!"
     elsif bust?(@player)
+      display_score(@player)
+      puts
+      puts "Bust! You lose."
     else
       winning_hand
     end
     puts
-
   end
 
   def deal_starting_hands
@@ -70,8 +64,8 @@ class Blackjack
     2.times { @dealer.cards_in_hand << @deck.deal }
   end
 
-  def bust?(hand)
-    if hand.calculate_score > 21
+  def bust?(target_hand)
+    if target_hand.calculate_score > 21
       true
     else
       false
@@ -80,6 +74,7 @@ class Blackjack
 
   def hit(target_hand)
     target_hand.cards_in_hand << @deck.deal
+    display_card(target_hand, -1)
   end
 
   def winning_hand
@@ -95,11 +90,14 @@ class Blackjack
   end
 
   private
+  def display_score(target_hand)
+    puts "\n#{target_hand.name.upcase} SCORE: #{target_hand.calculate_score}"
+  end
+
   def display_card(target_hand,index)
     print "\n#{target_hand.name} was dealt "
     target_hand.cards_in_hand[index].display
   end
-
 end
 
 blackjack_game = Blackjack.new
